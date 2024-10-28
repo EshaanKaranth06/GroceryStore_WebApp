@@ -3,24 +3,24 @@ from sql_connection import get_sql_connection
 import mysql.connector
 import json
 
-import products
-import orders
-import unit_of_measure
+import products_dao
+import orders_dao
+import uom_dao
 
 app = Flask(__name__)
 
 connection = get_sql_connection()
 
-@app.route('/getUom', methods=['GET'])
+@app.route('/getUOM', methods=['GET'])
 def get_uom():
-    response = unit_of_measure.get_uoms(connection)
+    response = uom_dao.get_uoms(connection)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 
 @app.route('/getProducts', methods=['GET'])
 def get_products():
-    response = products.get_all_products(connection)
+    response = products_dao.get_all_products(connection)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -28,7 +28,7 @@ def get_products():
 @app.route('/insertProduct', methods=['POST'])
 def insert_product():
     request_payload = json.loads(request.form['data'])
-    product_id = products.insert_new_product(connection, request_payload)
+    product_id = products_dao.insert_new_product(connection, request_payload)
     response = jsonify({
         'product_id': product_id
     })
@@ -37,7 +37,7 @@ def insert_product():
 
 @app.route('/getAllOrders', methods=['GET'])
 def get_all_orders():
-    response = orders.get_all_orders(connection)
+    response = orders_dao.get_all_orders(connection)
     response = jsonify(response)
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
@@ -45,7 +45,7 @@ def get_all_orders():
 @app.route('/insertOrder', methods=['POST'])
 def insert_order():
     request_payload = json.loads(request.form['data'])
-    order_id = orders.insert_order(connection, request_payload)
+    order_id = orders_dao.insert_order(connection, request_payload)
     response = jsonify({
         'order_id': order_id
     })
@@ -54,7 +54,7 @@ def insert_order():
 
 @app.route('/deleteProduct', methods=['POST'])
 def delete_product():
-    return_id = products.delete_product(connection, request.form['product_id'])
+    return_id = products_dao.delete_product(connection, request.form['product_id'])
     response = jsonify({
         'product_id': return_id
     })
