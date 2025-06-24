@@ -1,27 +1,10 @@
 version: "3.8"
 services:
-  db:
-    image: mysql:8.0
-    container_name: grocery-db
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: gs
-    ports:
-      - "3307:3307"
-    volumes:
-      - mysql_data:/var/lib/mysql
-
   backend:
     build: .
     container_name: grocery-backend
     restart: always
     ports:
       - "5050:5050"
-    depends_on:
-      - db
     env_file:
       - .env
-
-volumes:
-  mysql_data:

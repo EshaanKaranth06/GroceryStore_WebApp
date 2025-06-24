@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: grocery-store
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: MYSQL_HOST
+        value: mysql-3ce7dc47-bankapp.c.aivencloud.com
+      - key: MYSQL_PORT
+        value: 21720
+      - key: MYSQL_USER
+        value: root
+      - key: MYSQL_PASSWORD
+        value: AVNS_zT9JuQ06XL8funyStCd
+      - key: MYSQL_DATABASE
+        value: grocery_store
