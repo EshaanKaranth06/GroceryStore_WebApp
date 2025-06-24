@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from sql_connection import get_sql_connection
-import mysql.connector
 import json
 
 import products_dao
@@ -10,6 +9,13 @@ import uom_dao
 app = Flask(__name__)
 
 connection = get_sql_connection()
+
+app = Flask(__name__, static_folder='static', template_folder='templates')
+
+@app.route('/')
+def home():
+    return render_template('index.html')
+
 
 @app.route('/getUOM', methods=['GET'])
 def get_uom():
